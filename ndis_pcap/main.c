@@ -43,7 +43,7 @@ int wmain(int argc, const wchar_t** argv) {
 		}
 
 		if (argv[0][0] == L'/') {
-			if (!wcscmp(argv[1], L"/noclean")) {
+			if (!wcscmp(argv[0], L"/noclean")) {
 				clean = false;
 			}
 			else {

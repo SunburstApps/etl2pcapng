@@ -90,7 +90,7 @@ int wmain(int argc, const wchar_t** argv) {
 
 	wchar_t traceFileArg[MAX_PATH + 10]; // strlen("traceFile=") == 10
 	swprintf_s(traceFileArg, ARRAYSIZE(traceFileArg), L"traceFile=%ls", etl_filename);
-	int exitCode = (int)_wspawnlp(_P_WAIT, L"C:\\Windows\\System32\\netsh.exe", L"trace",
+	int exitCode = (int)_wspawnlp(_P_WAIT, L"C:\\Windows\\System32\\netsh.exe", L"C:\\Windows\\System32\\netsh.exe", L"trace",
 		L"start", L"capture=yes", L"report=disabled", traceFileArg, L"sessionname=ndis_pcap", NULL);
 	if (exitCode != 0) {
 		fwprintf(stderr, L"error: netsh trace start failed with code %d\n", exitCode);
@@ -100,13 +100,14 @@ int wmain(int argc, const wchar_t** argv) {
 	wprintf(L"Network trace started, press Enter to stop...\n");
 	(void)getwchar();
 
-	exitCode = (int)_wspawnlp(_P_WAIT, L"C:\\Windows\\System32\\netsh.exe", L"trace", L"stop", L"sessionname=ndis_pcap", NULL);
+	exitCode = (int)_wspawnlp(_P_WAIT, L"C:\\Windows\\System32\\netsh.exe", L"C:\\Windows\\System32\\netsh.exe",
+		L"trace", L"stop", L"sessionname=ndis_pcap", NULL);
 	if (exitCode != 0) {
 		fwprintf(stderr, L"error: netsh trace stop failed with code %d\n", exitCode);
 		return 1;
 	}
 
-	exitCode = (int)_wspawnlp(_P_WAIT, etl2pcapng_path, etl_filename, pcap_filename, NULL);
+	exitCode = (int)_wspawnlp(_P_WAIT, etl2pcapng_path, etl2pcapng_path, etl_filename, pcap_filename, NULL);
 	if (exitCode != 0) {
 		fwprintf(stderr, L"error: etl2pcapng failed with code %d\n", exitCode);
 	}

@@ -63,7 +63,7 @@ int wmain(int argc, const wchar_t** argv) {
 	}
 
 	wchar_t* etl_filename = _wcsdup(pcap_filename);
-	HRESULT hr = PathCchRenameExtension(etl_filename, wcslen(etl_filename), L".etl");
+	HRESULT hr = PathCchRenameExtension(etl_filename, wcslen(etl_filename) + 1, L".etl");
 	if (FAILED(hr)) {
 		fwprintf(stderr, L"error: Could not construct file path to intermediate .ETL file\n");
 		exit(1);
